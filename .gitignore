@@ -1,0 +1,11 @@
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/
+
+# Dependency directories
+node_modules/
+
+# Parcel cache
+.cache/
+
+# Parcel temp build
+dist/

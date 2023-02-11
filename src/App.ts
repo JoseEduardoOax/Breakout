@@ -1,19 +1,40 @@
-class Canvas {
-  public canvas: HTMLCanvasElement;
-  public ctx: CanvasRenderingContext2D;
+import { Canvas } from "./Canvas";
+import { Scene } from "./Graphics/Scene";
 
-  public constructor() {
-    this.createCanvas();
-  }
+const canvas = new Canvas();
+const scene = new Scene();
 
-  private createCanvas() {
-    this.canvas = <HTMLCanvasElement>document.getElementById('game');
-    this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+let secondsPassed: number;
+let oldTimeStamp: number;
+let fps: number;
 
-    console.log(this.canvas);
-  }
+document.body.appendChild(canvas.canvas);
 
+const gameLoop = (timeStamp: number) => {
+  secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+  oldTimeStamp = timeStamp;
+
+  const context = canvas.context;
+
+  // calculate fps
+  fps = Math.round(1 / secondsPassed);
+
+  canvas.clear();
+
+  scene.draw(canvas.context);
+
+
+  context.font = '25px Arial';
+  context.fillStyle = 'white';
+  context.fillText("FPS: " + fps, 50, 50);
+
+  window.requestAnimationFrame(gameLoop);
 }
 
+const init = () => {
+  window.requestAnimationFrame(gameLoop);
+}
 
-new Canvas();
+window.onload = init;
+
+
